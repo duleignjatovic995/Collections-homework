@@ -23,16 +23,36 @@ public class Bigram {
 		return mapa;
 	}
 	
-	
+	public static String predictChar(Map<String, Integer> mapa, String s) {
+		int max = 0;
+		String slovo = "";
+		String chr = s.substring(s.length()-1);
+		for (Map.Entry<String, Integer> obj : mapa.entrySet()) {
+			if (obj.getKey().startsWith(chr) && obj.getValue() > max) {
+				slovo = obj.getKey().substring(1, 2);
+				max = obj.getValue();
+			}
+		}
+		return slovo;
+	}
 	
 	
 	
 	public static void main(String[] args) {
-
+		String p = "ja";
 		String sekvenca = "abbcceeeeeeabcc";
 		Map<String, Integer> map = Bigram.createBigrams(sekvenca);
 		for (Map.Entry<String, Integer> obj : map.entrySet()) {
 			System.out.println(obj.getKey()+"-"+obj.getValue());
 		}
+		
+		for (int i = 0; i < 3; i++) {
+			p+=Bigram.predictChar(map, p);			
+		}
+		
+		System.out.println(p);
+//		String s = "123456789840932840234";
+//		System.out.println(s.substring(s.length()-1));
+		
 	}
 }
